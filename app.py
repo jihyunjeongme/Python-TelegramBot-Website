@@ -47,3 +47,5 @@ driver.find_element_by_xpath('//*[@id="continue-button"]').click()
 
 
 time.sleep(15)
+
+# 로그인 로직 추가 
