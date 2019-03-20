@@ -30,22 +30,47 @@ time.sleep(5 + random.random() * 0.3)
 # driver.implicitly_wait(3)
 
 ## url에 접근한다.
-# driver.get("https://naver.com")
-driver.get("https://watson.service-now.com")
+driver.get("https://nid.naver.com/nidlogin.login")
 
 time.sleep(5 + random.random() * 0.3)
 
 ## 아이디/비밀번호를 입력해준다.
-driver.find_element_by_name("username").send_keys("jihyunj@kr.ibm.com")
+driver.find_element_by_name("id").send_keys("stothyun&&^ㄴㅇi")
 time.sleep(5 + random.random() * 0.3)
 
-# driver.find_element_by_name("pw").send_keys("gos^dk**^^di1")
-# time.sleep(5 + random.random() * 0.3)
+driver.find_element_by_name("pw").send_keys("gosdkdㅓㄴㅇi1")
+time.sleep(5 + random.random() * 0.3)
 
 ## 로그인 버튼을 눌러주자.
-driver.find_element_by_xpath('//*[@id="continue-button"]').click()
+driver.find_element_by_xpath('//*[@id="frmNIDLogin"]/fieldset/input').click()
+time.sleep(7)
 
+# 스펙업 카페로 이동한다.
+driver.get("https://cafe.naver.com/specup")
+time.sleep(3 + random.random() * 0.3)
 
-time.sleep(15)
+# 스펙업 | 공채속보 버튼을 눌러주자.
+driver.find_element_by_xpath('//*[@id="special-menuLink-1481"]').click()
+# time.sleep(3 + random.random() * 0.3)
 
-# 로그인 로직 추가 
+html = driver.page_source
+soup = BeautifulSoup(html, "html.parser")
+
+print(soup)
+# 스펙업 공채속보 - 헤드라인  뽑아 내기
+headline = soup.select(
+    "div.article-board m-tcol-c > table > tbody > tr > td > div.board-list > div.inner_list > a"
+)
+
+for n in headline:
+    print(n.text.strip())
+time.sleep(5)
+
+# ul#special-menu-item li.selected > a
+# ul  # special-menu-item li.selected > a
+# ul  # special-menu-item li.selected > a
+
+# ## 로그인 버튼을 눌러주자.
+# driver.find_element_by_xpath('//*[@id="continue-button"]').click()
+# time.sleep(10 + random.random() * 0.3)
+
