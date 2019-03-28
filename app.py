@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import telegram
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36"
@@ -15,6 +16,12 @@ req = requests.get(
     headers=headers,
 )
 
+# 토큰을 지정해서 bot을 선언해줍니다.
+bot = telegram.Bot(token="781872977:AAH2AcUUdtdRDY_M1WhQQrAG6lfxhnYjteA")
+
+# 테스트 봇, 가장 마지막으로 bot에게 말을 건 사람의 id를 지정
+chat_id = bot.getUpdates()[-1].message.chat.id
+
 req.encoding = "utf-8"  # Clien에서 encoding 정보를 보내주지 않아 encoding옵션을 추가해줘야합니다.
 
 html = req.text
@@ -25,9 +32,10 @@ latest = posts[1].text
 with open(os.path.join(BASE_DIR, "latest.txt"), "r+") as f_read:
     before = f_read.readline()
     if before != latest:
-        # 같은 경우는 에러 없이 넘기고, 다른 경우에만
-        # 메시지 보내는 로직을 넣으면 됩니다.
-        f_read.close()
+        bot.sendMessage(chat_id=chat_id, text="새 글이 올라왔습니다!")
+    else:  # 테스트 차 넣었음. 원래 필요 없음
+        bot.sendMessage(chat_id=chat_id, text="새 글이 없어요ㅠ")
+    f_read.close()
 
 with open(os.path.join(BASE_DIR, "latest.txt"), "w+") as f_write:
     f_write.write(latest)
