@@ -27,10 +27,12 @@ req.encoding = "utf-8"  # Clien에서 encoding 정보를 보내주지 않아 enc
 html = req.text
 soup = BeautifulSoup(html, "html.parser")
 posts = soup.select("strong.tit")
-latest = posts[1].text
+latest = posts[2].text.strip()
 
 with open(os.path.join(BASE_DIR, "latest.txt"), "r+") as f_read:
     before = f_read.readline()
+    print(latest)
+    print(before)
     if before != latest:
         bot.sendMessage(chat_id=chat_id, text="새 글이 올라왔습니다!")
     else:  # 테스트 차 넣었음. 원래 필요 없음
